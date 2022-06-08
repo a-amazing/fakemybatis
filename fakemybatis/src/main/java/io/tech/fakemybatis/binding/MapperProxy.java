@@ -5,6 +5,8 @@ import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.util.Map;
 
+import io.tech.fakemybatis.session.SqlSession;
+
 public class MapperProxy<T> implements InvocationHandler, Serializable {
 
     private static final long serialVersionUID = -6424540398559729838L;
@@ -22,7 +24,7 @@ public class MapperProxy<T> implements InvocationHandler, Serializable {
         if (Object.class.equals(method.getDeclaringClass())) {
             return method.invoke(this, args);
         } else {
-            return "你方法的被代理了！" + SqlSession.get(mapperInterface.getName() + "." + method.getName());
+            return "你方法的被代理了！" + sqlSession.selectOne(mapperInterface.getName() + "." + method.getName());
         }
     }
 

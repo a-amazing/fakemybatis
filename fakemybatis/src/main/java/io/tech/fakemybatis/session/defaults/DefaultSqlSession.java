@@ -1,10 +1,13 @@
 package io.tech.fakemybatis.session.defaults;
 
 import io.tech.fakemybatis.binding.MapperRegistry;
+import io.tech.fakemybatis.mapping.MappedStatement;
+import io.tech.fakemybatis.session.Configuration;
 import io.tech.fakemybatis.session.SqlSession;
 
 public class DefaultSqlSession implements SqlSession {
 
+    private Configuration configuration;
     /**
      * 映射器注册机
      */
@@ -21,7 +24,8 @@ public class DefaultSqlSession implements SqlSession {
 
     @Override
     public <T> T selectOne(String statement, Object parameter) {
-        return (T) ("你被代理了！" + "方法：" + statement + " 入参：" + parameter);
+        MappedStatement mappedStatement = configuration.getMappedStatement(statement);
+        return (T) ("你被代理了！" + "\n方法：" + statement + "\n入参：" + parameter + "\n待执行SQL：" + mappedStatement.getSql());
     }
 
     @Override
